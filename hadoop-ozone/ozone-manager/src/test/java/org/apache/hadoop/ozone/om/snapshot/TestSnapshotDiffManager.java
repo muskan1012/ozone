@@ -1305,7 +1305,7 @@ public class TestSnapshotDiffManager {
                 eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
                 eq(snapshotInfoList.get(1).getName()), eq(false),
                 eq(false)),
-        15, TimeDuration.ONE_SECOND, null, null);
+        17, TimeDuration.ONE_SECOND, null, null);
 
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
         snapshotInfoList.get(1));
