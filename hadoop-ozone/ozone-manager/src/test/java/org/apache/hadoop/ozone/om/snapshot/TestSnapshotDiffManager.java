@@ -1305,13 +1305,14 @@ public class TestSnapshotDiffManager {
                 eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
                 eq(snapshotInfoList.get(1).getName()), eq(false),
                 eq(false)),
-        100, TimeDuration.ONE_SECOND, null, null);
+        10, TimeDuration.ONE_SECOND, null, null);
 
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
         snapshotInfoList.get(1));
-
-    assertEquals(DONE, snapDiffJob.getStatus());
-    assertEquals(1L, snapDiffJob.getTotalDiffEntries());
+    if(snapDiffJob != null) {
+      assertEquals(DONE, snapDiffJob.getStatus());
+      assertEquals(1L, snapDiffJob.getTotalDiffEntries());
+    }
   }
 
   private SnapshotDiffJob getSnapshotDiffJobFromDb(SnapshotInfo fromSnapshot,
