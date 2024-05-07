@@ -1297,18 +1297,25 @@ public class TestSnapshotDiffManager {
         eq(snapshotInfoList.get(1).getName()), eq(false), eq(false));
 
     spy.loadJobsOnStartUp();
+    verify(spy, atLeast(1))
+            .generateSnapshotDiffReport(anyString(), anyString(),
+                    eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
+                    eq(snapshotInfoList.get(1).getName()), eq(false),
+                    eq(false));
 
     // Wait for sometime to make sure that job finishes.
-    attempt(() ->
-        verify(spy, atLeast(1))
-            .generateSnapshotDiffReport(anyString(), anyString(),
-                eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
-                eq(snapshotInfoList.get(1).getName()), eq(false),
-                eq(false)),
-        10, TimeDuration.ONE_SECOND, null, null);
+    attempt(() -> {
+        SnapshotDiffJob retrievedJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
+    if (retrievedJob !=null && retrievedJob.getStatus().equals(DONE)){
+      return true;
+    }
+    else {
+      throw new RuntimeException("Jobs not yet completed!");
+    }
+  }, 10, TimeDuration.ONE_SECOND, null, null);
 
-    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
-        snapshotInfoList.get(1));
+    //Now as the job is completed, asserting its state
+    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
     if(snapDiffJob != null) {
       assertEquals(DONE, snapDiffJob.getStatus());
       assertEquals(1L, snapDiffJob.getTotalDiffEntries());
