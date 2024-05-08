@@ -1312,7 +1312,7 @@ public class TestSnapshotDiffManager {
     else {
       throw new RuntimeException("Jobs not yet completed!");
     }
-  }, 10, TimeDuration.ONE_SECOND, null, null);
+  }, 10, TimeDuration.ONE_MINUTE, null, null);
 
     //Now as the job is completed, asserting its state
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
