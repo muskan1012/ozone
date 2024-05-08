@@ -1304,7 +1304,7 @@ public class TestSnapshotDiffManager {
       return true;
     }
     else {
-      throw new RuntimeException("Jobs not yet completed!");
+      return false;
     }
   }, 10, TimeDuration.ONE_SECOND, null, null);
 
