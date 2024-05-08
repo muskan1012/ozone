@@ -1297,12 +1297,6 @@ public class TestSnapshotDiffManager {
         eq(snapshotInfoList.get(1).getName()), eq(false), eq(false));
 
     spy.loadJobsOnStartUp();
-    verify(spy, atLeast(1))
-            .generateSnapshotDiffReport(anyString(), anyString(),
-                    eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
-                    eq(snapshotInfoList.get(1).getName()), eq(false),
-                    eq(false));
-
     // Wait for sometime to make sure that job finishes.
     attempt(() -> {
         SnapshotDiffJob retrievedJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
@@ -1312,7 +1306,13 @@ public class TestSnapshotDiffManager {
     else {
       throw new RuntimeException("Jobs not yet completed!");
     }
-  }, 100, TimeDuration.ONE_SECOND, null, null);
+  }, 10, TimeDuration.ONE_SECOND, null, null);
+
+    verify(spy, atLeast(1))
+            .generateSnapshotDiffReport(anyString(), anyString(),
+                    eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
+                    eq(snapshotInfoList.get(1).getName()), eq(false),
+                    eq(false));
 
     //Now as the job is completed, asserting its state
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
