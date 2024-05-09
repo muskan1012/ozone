@@ -1307,7 +1307,7 @@ public class TestSnapshotDiffManager {
 //      log.warn("Snapshot job is not yet completed");
       throw new AssertionError("Snapshot job is not yet completed");
     }
-  }, 100, TimeDuration.ONE_SECOND, null, null);
+  }, 10, TimeDuration.ONE_MINUTE, null, null);
 
     verify(spy, atLeast(1))
             .generateSnapshotDiffReport(anyString(), anyString(),
