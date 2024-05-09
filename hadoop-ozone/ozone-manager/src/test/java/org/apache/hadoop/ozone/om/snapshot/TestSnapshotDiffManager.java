@@ -1316,12 +1316,19 @@ public class TestSnapshotDiffManager {
 
   private SnapshotDiffJob getSnapshotDiffJobFromDb(SnapshotInfo fromSnapshot,
                                                    SnapshotInfo toSnapshot)
-      throws IOException, RocksDBException {
+          throws IOException, RocksDBException, InterruptedException {
     String jobKey = generateSnapDiffJobKey.apply(fromSnapshot, toSnapshot);
 
     byte[] bytes = db.get()
         .get(snapDiffJobTable, codecRegistry.asRawData(jobKey));
-    return codecRegistry.asObject(bytes, SnapshotDiffJob.class);
+    SnapshotDiffJob job = codecRegistry.asObject(bytes, SnapshotDiffJob.class);
+    if(job.getStatus() ==IN_PROGRESS) {
+      while(job.getStatus() == IN_PROGRESS) {
+        Thread.sleep(1000);
+        job = getSnapshotDiffJobFromDb(fromSnapshot, toSnapshot);
+      }
+    }
+    return job;
   }
 
   private void uploadSnapshotDiffJobToDb(SnapshotInfo fromSnapshot,
