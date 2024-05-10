@@ -147,6 +147,7 @@ import static org.apache.hadoop.ozone.snapshot.SnapshotDiffResponse.JobStatus.IN
 import static org.apache.hadoop.ozone.snapshot.SnapshotDiffResponse.JobStatus.QUEUED;
 import static org.apache.hadoop.ozone.snapshot.SnapshotDiffResponse.JobStatus.REJECTED;
 import static org.apache.ratis.util.JavaUtils.attempt;
+import static org.apache.ratis.util.JavaUtils.attemptUntilTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -1305,11 +1306,11 @@ public class TestSnapshotDiffManager {
                 eq(VOLUME_NAME), eq(BUCKET_NAME), eq(snapshotInfo.getName()),
                 eq(snapshotInfoList.get(1).getName()), eq(false),
                 eq(false)),
-        100, TimeDuration.ONE_MINUTE, null, null);
+        50, TimeDuration.ONE_MINUTE, null, null);
 
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
 
-    attempt(() -> snapDiffJob != null && snapDiffJob.getStatus() == DONE,
+    attemptUntilTrue(() -> snapDiffJob != null && snapDiffJob.getStatus() == DONE,
             100, TimeDuration.ONE_MINUTE, null, null);
 
 //    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
