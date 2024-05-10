@@ -1307,8 +1307,14 @@ public class TestSnapshotDiffManager {
                 eq(false)),
         10, TimeDuration.ONE_SECOND, null, null);
 
+    attempt(() -> {
+              SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
+              return snapDiffJob != null && snapDiffJob.getStatus() == DONE;
+            },
+            20, TimeDuration.ONE_SECOND, null, null);
+
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
-        snapshotInfoList.get(1));
+            snapshotInfoList.get(1));
 
     assertEquals(DONE, snapDiffJob.getStatus());
     assertEquals(1L, snapDiffJob.getTotalDiffEntries());
@@ -1316,19 +1322,12 @@ public class TestSnapshotDiffManager {
 
   private SnapshotDiffJob getSnapshotDiffJobFromDb(SnapshotInfo fromSnapshot,
                                                    SnapshotInfo toSnapshot)
-          throws IOException, RocksDBException, InterruptedException {
+          throws IOException, RocksDBException {
     String jobKey = generateSnapDiffJobKey.apply(fromSnapshot, toSnapshot);
 
     byte[] bytes = db.get()
         .get(snapDiffJobTable, codecRegistry.asRawData(jobKey));
-    SnapshotDiffJob job = codecRegistry.asObject(bytes, SnapshotDiffJob.class);
-    if(job.getStatus() ==IN_PROGRESS) {
-      while(job.getStatus() == IN_PROGRESS) {
-        Thread.sleep(1000);
-        job = getSnapshotDiffJobFromDb(fromSnapshot, toSnapshot);
-      }
-    }
-    return job;
+    return codecRegistry.asObject(bytes, SnapshotDiffJob.class);
   }
 
   private void uploadSnapshotDiffJobToDb(SnapshotInfo fromSnapshot,
