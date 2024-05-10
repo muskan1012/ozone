@@ -1307,14 +1307,13 @@ public class TestSnapshotDiffManager {
                 eq(false)),
         10, TimeDuration.ONE_MINUTE, null, null);
 
-    attempt(() -> {
-              SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
-              return snapDiffJob != null && snapDiffJob.getStatus() == DONE;
-            },
+    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
+
+    attempt(() -> snapDiffJob != null && snapDiffJob.getStatus() == DONE,
             50, TimeDuration.ONE_MINUTE, null, null);
 
-    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
-            snapshotInfoList.get(1));
+//    SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
+//            snapshotInfoList.get(1));
 
     assertEquals(DONE, snapDiffJob.getStatus());
     assertEquals(1L, snapDiffJob.getTotalDiffEntries());
