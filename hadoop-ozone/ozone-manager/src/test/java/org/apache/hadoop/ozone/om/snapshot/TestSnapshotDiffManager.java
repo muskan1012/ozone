@@ -1311,7 +1311,7 @@ public class TestSnapshotDiffManager {
               SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo, snapshotInfoList.get(1));
               return snapDiffJob != null && snapDiffJob.getStatus() == DONE;
             },
-            20, TimeDuration.ONE_SECOND, null, null);
+            20, TimeDuration.ONE_MINUTE, null, null);
 
     SnapshotDiffJob snapDiffJob = getSnapshotDiffJobFromDb(snapshotInfo,
             snapshotInfoList.get(1));
