@@ -4200,7 +4200,7 @@
     }
 
     @Test
-    @Unhealthy("HDDS-8752")
+    //@Unhealthy("HDDS-8752")
     public void testOverWriteKeyWithAndWithOutVersioning() throws Exception {
       String volumeName = UUID.randomUUID().toString();
       String bucketName = UUID.randomUUID().toString();
