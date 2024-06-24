@@ -37,7 +37,6 @@ import org.apache.hadoop.ozone.OmUtils;
 import org.apache.hadoop.ozone.OzoneConsts;
 import org.apache.hadoop.ozone.om.OMConfigKeys;
 import org.apache.hadoop.ozone.om.OMMetadataManager;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OmMetadataManagerImpl;
 import org.apache.hadoop.ozone.om.helpers.OmKeyInfo;
 import org.apache.hadoop.ozone.om.helpers.OmBucketInfo;
@@ -1099,8 +1098,10 @@ public class TestNSSummaryEndpointWithOBSAndLegacy {
         omDbDir.getAbsolutePath());
     omConfiguration.set(OMConfigKeys
         .OZONE_OM_ENABLE_FILESYSTEM_PATHS, "false");
+//    OMMetadataManager omMetadataManager = new OmMetadataManagerImpl(
+//        omConfiguration, null, new OMPerformanceMetrics());
     OMMetadataManager omMetadataManager = new OmMetadataManagerImpl(
-        omConfiguration, null, new OMPerformanceMetrics());
+            omConfiguration, null);
 
     String volumeKey = omMetadataManager.getVolumeKey(VOL);
     OmVolumeArgs args =

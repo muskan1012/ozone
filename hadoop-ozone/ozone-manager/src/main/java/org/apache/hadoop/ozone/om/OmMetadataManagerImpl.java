@@ -332,7 +332,8 @@ public class OmMetadataManagerImpl implements OMMetadataManager,
     init(conf, ozoneManager);
     this.lock = new OzoneManagerLock(conf);
     this.omEpoch = OmUtils.getOMEpoch(isRatisEnabled);
-    this.perfMetrics = ozoneManager.getPerfMetrics();
+//    this.perfMetrics = ozoneManager.getPerfMetrics();
+    this.perfMetrics = null;
     start(conf);
   }
 

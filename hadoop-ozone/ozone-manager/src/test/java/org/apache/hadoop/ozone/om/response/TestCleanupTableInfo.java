@@ -31,7 +31,7 @@ import org.apache.hadoop.hdds.utils.db.cache.CacheValue;
 import org.apache.hadoop.ozone.audit.AuditLogger;
 import org.apache.hadoop.ozone.om.OMMetadataManager;
 import org.apache.hadoop.ozone.om.OMMetrics;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
+//import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OmMetadataManagerImpl;
 import org.apache.hadoop.ozone.om.OzoneManager;
 import org.apache.hadoop.ozone.om.helpers.OmBucketInfo;
@@ -270,7 +270,9 @@ public class TestCleanupTableInfo {
     }
     ServerUtils.setOzoneMetaDirPath(conf, newFolder.toString());
     return spy(
-        new OmMetadataManagerImpl(conf, null, new OMPerformanceMetrics()));
+            new OmMetadataManagerImpl(conf, null));
+//    return spy(
+//        new OmMetadataManagerImpl(conf, null, new OMPerformanceMetrics()));
   }
 
   private OMFileCreateRequest anOMFileCreateRequest() {

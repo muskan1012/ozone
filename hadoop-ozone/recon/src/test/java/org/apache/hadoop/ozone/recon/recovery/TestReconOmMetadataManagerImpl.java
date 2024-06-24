@@ -32,7 +32,7 @@ import org.apache.hadoop.hdds.conf.OzoneConfiguration;
 import org.apache.hadoop.hdds.protocol.proto.HddsProtos;
 import org.apache.hadoop.hdds.utils.db.DBStore;
 import org.apache.hadoop.ozone.om.OMMetadataManager;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
+//import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OmMetadataManagerImpl;
 import org.apache.hadoop.ozone.om.helpers.BucketLayout;
 import org.apache.hadoop.ozone.om.helpers.OmBucketInfo;
@@ -162,8 +162,10 @@ public class TestReconOmMetadataManagerImpl {
     OzoneConfiguration omConfiguration = new OzoneConfiguration();
     omConfiguration.set(OZONE_OM_DB_DIRS,
         omDbDir.getAbsolutePath());
+//    OMMetadataManager omMetadataManager = new OmMetadataManagerImpl(
+//        omConfiguration, null, new OMPerformanceMetrics());
     OMMetadataManager omMetadataManager = new OmMetadataManagerImpl(
-        omConfiguration, null, new OMPerformanceMetrics());
+            omConfiguration, null);
 
     //Create a volume + bucket + 2 keys.
     String volumeKey = omMetadataManager.getVolumeKey("sampleVol");

@@ -23,7 +23,7 @@ import org.apache.hadoop.hdds.conf.OzoneConfiguration;
 import org.apache.hadoop.hdds.utils.db.BatchOperation;
 import org.apache.hadoop.ozone.om.OMConfigKeys;
 import org.apache.hadoop.ozone.om.OMMetadataManager;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
+//import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OmMetadataManagerImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,8 +47,10 @@ public class TestOMDelegationTokenResponse {
     conf = new OzoneConfiguration();
     ((OzoneConfiguration) conf).set(OMConfigKeys.OZONE_OM_DB_DIRS,
         folder.toAbsolutePath().toString());
+//    omMetadataManager = new OmMetadataManagerImpl((OzoneConfiguration) conf,
+//            null, new OMPerformanceMetrics());
     omMetadataManager = new OmMetadataManagerImpl((OzoneConfiguration) conf,
-            null, new OMPerformanceMetrics());
+            null);
     batchOperation = omMetadataManager.getStore().initBatchOperation();
   }
 

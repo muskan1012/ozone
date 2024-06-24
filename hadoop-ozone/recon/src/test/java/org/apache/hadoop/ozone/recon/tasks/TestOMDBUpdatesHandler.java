@@ -82,7 +82,8 @@ public class TestOMDBUpdatesHandler {
   @BeforeEach
   public void setUp() throws Exception {
     OzoneConfiguration configuration = createNewTestPath("config");
-    omMetadataManager = new OmMetadataManagerImpl(configuration, null, new OMPerformanceMetrics());
+//    omMetadataManager = new OmMetadataManagerImpl(configuration, null, new OMPerformanceMetrics());
+    omMetadataManager = new OmMetadataManagerImpl(configuration, null);
 
     OzoneConfiguration reconConfiguration = createNewTestPath("reconConfig");
     reconOmMetadataManager = new OmMetadataManagerImpl(reconConfiguration,

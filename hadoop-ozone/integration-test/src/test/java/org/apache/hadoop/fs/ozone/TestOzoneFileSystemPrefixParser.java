@@ -29,7 +29,7 @@ import org.apache.hadoop.ozone.OzoneConsts;
 import org.apache.hadoop.ozone.TestDataUtil;
 import org.apache.hadoop.ozone.client.OzoneClient;
 import org.apache.hadoop.ozone.debug.PrefixParser;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
+//import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OMStorage;
 import org.apache.hadoop.ozone.om.helpers.BucketLayout;
 import org.junit.jupiter.api.AfterAll;
@@ -61,7 +61,7 @@ public class TestOzoneFileSystemPrefixParser {
   private static Path dir;
   private static Path file;
 
-  private static OMPerformanceMetrics perfMetrics;
+ // private static OMPerformanceMetrics perfMetrics;
 
   @BeforeAll
   public static void init() throws Exception {
@@ -69,7 +69,7 @@ public class TestOzoneFileSystemPrefixParser {
     bucketName = RandomStringUtils.randomAlphabetic(10).toLowerCase();
 
     configuration = new OzoneConfiguration();
-    perfMetrics = new OMPerformanceMetrics();
+   // perfMetrics = new OMPerformanceMetrics();
     cluster = MiniOzoneCluster.newBuilder(configuration)
         .setNumDatanodes(3)
         .build();
@@ -131,25 +131,35 @@ public class TestOzoneFileSystemPrefixParser {
     PrefixParser invalidVolumeParser = new PrefixParser();
     String invalidVolumeName =
         RandomStringUtils.randomAlphabetic(10).toLowerCase();
+//    invalidVolumeParser.parse(invalidVolumeName, bucketName,
+//        OMStorage.getOmDbDir(configuration).getPath(),
+//        file.toString(), perfMetrics);
     invalidVolumeParser.parse(invalidVolumeName, bucketName,
-        OMStorage.getOmDbDir(configuration).getPath(),
-        file.toString(), perfMetrics);
+            OMStorage.getOmDbDir(configuration).getPath(),
+            file.toString());
     assertPrefixStats(invalidVolumeParser, 0, 0, 0, 0, 0, 0);
 
     PrefixParser invalidBucketParser = new PrefixParser();
     String invalidBucketName =
         RandomStringUtils.randomAlphabetic(10).toLowerCase();
+//    invalidBucketParser.parse(volumeName, invalidBucketName,
+//        OMStorage.getOmDbDir(configuration).getPath(),
+//        file.toString(), perfMetrics);
     invalidBucketParser.parse(volumeName, invalidBucketName,
-        OMStorage.getOmDbDir(configuration).getPath(),
-        file.toString(), perfMetrics);
+            OMStorage.getOmDbDir(configuration).getPath(),
+            file.toString());
     assertPrefixStats(invalidBucketParser, 1, 0, 0, 0, 0, 0);
 
 
     Path invalidIntermediateDir = new Path(file.getParent(), "xyz");
+//    PrefixParser invalidIntermediateDirParser = new PrefixParser();
+//    invalidIntermediateDirParser.parse(volumeName, bucketName,
+//        OMStorage.getOmDbDir(configuration).getPath(),
+//        invalidIntermediateDir.toString(), perfMetrics);
     PrefixParser invalidIntermediateDirParser = new PrefixParser();
     invalidIntermediateDirParser.parse(volumeName, bucketName,
-        OMStorage.getOmDbDir(configuration).getPath(),
-        invalidIntermediateDir.toString(), perfMetrics);
+            OMStorage.getOmDbDir(configuration).getPath(),
+            invalidIntermediateDir.toString());
 
     assertPrefixStats(invalidIntermediateDirParser, 1, 1, 3, 1, 1, 1);
 
@@ -159,8 +169,10 @@ public class TestOzoneFileSystemPrefixParser {
       int nonExistentDirCount, int fileCount, int dirCount) throws Exception {
     PrefixParser parser = new PrefixParser();
 
+//    parser.parse(volumeName, bucketName,
+//        OMStorage.getOmDbDir(configuration).getPath(), parent.toString(), perfMetrics);
     parser.parse(volumeName, bucketName,
-        OMStorage.getOmDbDir(configuration).getPath(), parent.toString(), perfMetrics);
+            OMStorage.getOmDbDir(configuration).getPath(), parent.toString());
 
     assertPrefixStats(parser, 1, 1, intermediateDirCount, nonExistentDirCount,
         fileCount, dirCount);

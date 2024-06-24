@@ -24,7 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.apache.hadoop.hdds.conf.OzoneConfiguration;
 import org.apache.hadoop.ozone.om.OMConfigKeys;
-import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
+//import org.apache.hadoop.ozone.om.OMPerformanceMetrics;
 import org.apache.hadoop.ozone.om.OmMetadataManagerImpl;
 import org.apache.hadoop.ozone.om.OzoneManager;
 import org.apache.hadoop.ozone.om.response.OMClientResponse;
@@ -61,8 +61,10 @@ public class TestSetRangerServiceVersionRequest {
     final OzoneConfiguration conf = new OzoneConfiguration();
     conf.set(OMConfigKeys.OZONE_OM_DB_DIRS,
         folder.toAbsolutePath().toString());
+//    when(ozoneManager.getMetadataManager())
+//        .thenReturn(new OmMetadataManagerImpl(conf, ozoneManager, new OMPerformanceMetrics()));
     when(ozoneManager.getMetadataManager())
-        .thenReturn(new OmMetadataManagerImpl(conf, ozoneManager, new OMPerformanceMetrics()));
+            .thenReturn(new OmMetadataManagerImpl(conf, ozoneManager));
   }
 
   @AfterEach
