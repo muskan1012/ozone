@@ -1284,7 +1284,7 @@ public class OmMetadataManagerImpl implements OMMetadataManager,
       }
       perfMetrics.setListKeysAveragePagination(averagePagination);
       float opsPerSec =
-               averagePagination / ((Time.monotonicNowNanos() - startNanos)/1000000000.0f);
+               averagePagination / ((Time.monotonicNowNanos() - startNanos) / 1000000000.0f);
       perfMetrics.setListKeysOpsPerSec(opsPerSec);
       perfMetrics.addListKeysReadFromRocksDbLatencyNs(readFromRDbStopNs - readFromRDbStartNs);
     }
